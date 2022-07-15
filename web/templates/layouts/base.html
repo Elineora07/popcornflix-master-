@@ -1,0 +1,78 @@
+{% load static i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page_title }}</title>
+    <link rel="icon" href="{% static 'img/Film.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'vendor/bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static '/css/base.css' %}">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'main:index' %}">
+        <img
+    src="https://media.unreel.me/prod/popcornflix/general/0e3dfcc3-5a76-40b0-8167-86476da80204" alt="" class="p-icon"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex justify-content-end">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'main:film' %}">{% translate "Filmlar" %}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'main:show' %}">{% translate "Tv Showlar" %}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'main:tech' %}">{% translate "Sci-Fi" %}</a>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'main:content' %}">{% translate "Maqola qo'shish" %}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'account:registration' %}">{% translate "Ro'yhatdan o'tish" %}</a>
+        </li>
+          <li class="nav-item dropdown">
+              <a href="#" data-bs-toggle="dropdown" class="dropdown-toggle btn btn-secondary">
+                  {{ LANGUAGE_CODE }}
+              </a>
+              <div class="dropdown-menu">
+                  {% for l in LANGUAGES %}
+                      <a href="/{{ l.0 }}/" class="dropdown-item">{{ l.1 }}</a>
+                  {% endfor %}
+              </div>
+          </li>
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+{% if request.breadcrumb %}
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item f-bread"><a href="{% url 'main:index' %}">{% translate "Bosh sahifa" %}</a></li>
+      {% for item in request.breadcrumb %}
+    <li class="breadcrumb-item active" aria-current="page">{{ item }}</li>
+    {% endfor %}
+  </ol>
+</nav>
+
+{% endif %}
+
+{% block content %}
+
+{% endblock %}
+<script src="{% static "/vendor/bootstrap/js/bootstrap.bundle.min.js" %}"></script>
+</body>
+</html>
